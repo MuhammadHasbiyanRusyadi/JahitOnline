@@ -1,4 +1,4 @@
-Ini Adalah Ilustrasi OLTP dan Dimensional Modelling dari Proyek Ini:
+Ini Adalah Ilustrasi OLTP dan Dimensional Modelling dari Tugas Ini:
 
 OLTP:
 
