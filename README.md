@@ -4,5 +4,5 @@ OLTP:
 ![](./Diagram/OLTP.png)
 
 Dimensional Modelling:
-![](./Diagram/Dimensional Modelling.png)
+![](./Diagram/DimensionalModelling.png)
 
