@@ -1,7 +1,5 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-
-// ===== Seeding OLTP Data for Jasa Jahit Online =====
 async function seedData() {
   const db = await open({
     filename: "./jahitan.db",
@@ -10,7 +8,7 @@ async function seedData() {
 
   console.log("🌱 Seeding OLTP tables...");
 
-  // --- Pelanggan ---
+  // - Pelanggan -
   await db.exec(`
     INSERT INTO pelanggan (nama, no_hp, alamat, jenis_kelamin, tanggal_daftar, tipe_pelanggan, referensi)
     VALUES 
@@ -19,7 +17,7 @@ async function seedData() {
     ('Budiono Siregar', '08187654321', 'Jl. Selat Sunda No. 9', 'Laki-laki', '2025-03-05', 'VIP', 'Google');
   `); 
 
-  // --- Penjahit ---
+  // - Penjahit -
   await db.exec(`
     INSERT INTO penjahit (nama_penjahit, spesialisasi, tanggal_mulai_kerja, status)
     VALUES 
@@ -27,7 +25,7 @@ async function seedData() {
     ('Radha', 'Dress dan Kebaya', '2023-01-05', 'Aktif');
   `);
 
-  // --- Bahan ---
+  // - Bahan -
   await db.exec(`
     INSERT INTO bahan (nama_bahan, kategori_bahan, supplier, harga_per_meter, stok_meter, satuan, tanggal_masuk, minimum_stok)
     VALUES
@@ -35,7 +33,7 @@ async function seedData() {
     ('Denim', 'Celana', 'PT DenimKu', 60000, 50, 'meter', '2025-09-05', 8);
   `);
 
-  // --- Layanan ---
+  // - Layanan -
   await db.exec(`
     INSERT INTO layanan (nama_layanan, deskripsi, harga_dasar, durasi_estimasi)
     VALUES
@@ -43,7 +41,7 @@ async function seedData() {
     ('Jahit Celana', 'Potong Cutbray hehe', 100000, 2);
   `);
 
-  // --- Status Pesanan ---
+  // - Status Pesanan -
   await db.exec(`
     INSERT INTO status_pesanan (nama_status, keterangan)
     VALUES
@@ -52,7 +50,7 @@ async function seedData() {
     ('Completed', 'Order finished and ready for pickup');
   `);
 
-  // --- Pesanan ---
+  // - Pesanan -
   await db.exec(`
     INSERT INTO pesanan (pelanggan_id, penjahit_id, layanan_id, status_id, tanggal_pesan, estimasi_selesai, tanggal_selesai, sumber_pemesanan, status_pembayaran, total_harga, rating, catatan_pelanggan)
     VALUES
@@ -60,7 +58,7 @@ async function seedData() {
     (2, 2, 2, 2, '2025-09-25', '2025-09-27', NULL, 'Offline', 'Pending', 100000, NULL, 'Tolong pakai bahan halus');
   `);
 
-  // --- Detail Pesanan ---
+  // - Detail Pesanan -
   await db.exec(`
     INSERT INTO detail_pesanan (pesanan_id, bahan_id, warna, model_pakaian, jumlah_meter, harga_per_meter, subtotal, catatan_penjahit)
     VALUES
@@ -68,7 +66,7 @@ async function seedData() {
     (2, 2, 'Biru', 'Slim Fit', 1.5, 60000, 90000, 'Tambahkan saku belakang');
   `);
 
-  // --- Pembayaran ---
+  // - Pembayaran -
   await db.exec(`
     INSERT INTO pembayaran (pesanan_id, metode, tanggal_bayar, jumlah_bayar, status, diskon, nomor_referensi, kasir, catatan_pembayaran)
     VALUES

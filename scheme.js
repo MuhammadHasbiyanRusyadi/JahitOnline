@@ -1,14 +1,12 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-
-// ===== Create Database Schema for Jasa Jahit Online =====
 async function createSchema() {
   const db = await open({
     filename: "./jahitan.db",
     driver: sqlite3.Database,
   });
 
-  // ================= OLTP SCHEMA =================
+  //OLTP SCHEMA
   await db.exec(`
     -- ======================= OLTP TABLES =========================
 
@@ -106,7 +104,7 @@ async function createSchema() {
     );
   `);
 
-  // ================= DIMENSIONAL MODEL =================
+  //DIMENSIONAL MODELLING
   await db.exec(`
     -- ======================= DIMENSIONAL TABLES =========================
 

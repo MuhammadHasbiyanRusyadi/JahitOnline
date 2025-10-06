@@ -2,15 +2,12 @@ import sqlite3 from "sqlite3";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ===== Fix __dirname equivalent in ESM =====
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ===== Database Connection =====
 const DB_FILE = path.join(__dirname, "jahitan.db");
 const db = new sqlite3.Database(DB_FILE);
 
-// ===== Utils =====
 function run(sql, params = []) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function (err) {
@@ -34,7 +31,7 @@ function dateToId(dateStr) {
   return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 }
 
-// ===== Extract =====
+// ===== Proses Extract =====
 async function getPelanggan() {
   return await all("SELECT * FROM pelanggan");
 }
@@ -67,7 +64,7 @@ async function getPembayaran() {
   return await all("SELECT * FROM pembayaran");
 }
 
-// ===== Transform =====
+//Proses Transform
 function extractDates(pesanan, pembayaran) {
   return [
     ...new Set([
@@ -77,7 +74,7 @@ function extractDates(pesanan, pembayaran) {
   ];
 }
 
-// ===== Load =====
+//Proses Load
 async function loadDimPelanggan(rows) {
   for (const c of rows) {
     await run(
@@ -159,7 +156,7 @@ async function loadDimTanggal(pesanan, pembayaran) {
   }
 }
 
-// ===== Load Fact Table =====
+//Load Fact Table
 async function loadFactPesanan(pesanan, detailPesanan) {
   for (const d of detailPesanan) {
     const p = pesanan.find((ps) => ps.pesanan_id === d.pesanan_id);
@@ -184,7 +181,7 @@ async function loadFactPesanan(pesanan, detailPesanan) {
         d.bahan_id,
         p.layanan_id,
         p.status_id,
-        p.pesanan_id, // asumsi satu pesanan = satu pembayaran
+        p.pesanan_id, // disini saya mengasumsikan satu pesanan = satu pembayaran
         1,
         d.jumlah_meter,
         p.total_harga,
@@ -196,7 +193,7 @@ async function loadFactPesanan(pesanan, detailPesanan) {
   }
 }
 
-// ===== MAIN ETL =====
+//MAIN ETL
 async function etl() {
   console.log("🚀 Starting ETL for Jasa Jahit Online");
 
